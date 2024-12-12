@@ -1,0 +1,25 @@
+version: '4'
+services:
+  postgres_container:
+    image: postgres:17
+    environment:
+      - POSTGRES_PASSWORD=postgrespass
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+  # app:
+  #   image: node
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
+
+volumes:
+  pgdata:

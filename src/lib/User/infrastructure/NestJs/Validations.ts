@@ -7,9 +7,6 @@ export class FindOneParams {
 }
 
 export class Create {
-  @IsString()
-  @Length(5, 255)
-  id: string;
 
   @IsString()
   name: string;

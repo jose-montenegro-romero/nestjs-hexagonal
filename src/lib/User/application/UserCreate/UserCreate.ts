@@ -6,7 +6,7 @@ import { UserName } from '../../domain/UserName';
 import { UserRepository } from '../../domain/UserRepository';
 
 export class UserCreate {
-  constructor(private repository: UserRepository) {}
+  constructor(private repository: UserRepository) { }
 
   async run(
     id: string,

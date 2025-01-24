@@ -16,6 +16,8 @@ import { UserEdit } from '../../application/UserEdit/UserEdit';
 import { UserDelete } from '../../application/UserDelete/UserDelete';
 import { Create, Edit, FindOneParams } from './Validations';
 import { UserNotFoundError } from '../../domain/UserNotFoundError';
+// External libraries
+import { v4 as uuidv4 } from 'uuid';
 
 @Controller('user')
 export class UserController {
@@ -48,7 +50,7 @@ export class UserController {
   @Post()
   async create(@Body() body: Create) {
     return await this.userCreate.run(
-      body.id,
+      uuidv4(),
       body.name,
       body.email,
       new Date(),

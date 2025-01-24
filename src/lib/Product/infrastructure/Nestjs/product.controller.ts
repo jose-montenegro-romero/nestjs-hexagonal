@@ -1,9 +1,10 @@
-import { Body, Controller, Get, Inject, NotFoundException, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Inject, NotFoundException, Param, Post, Res } from '@nestjs/common';
 import { Create, FindOneParams } from './validations';
 import { ProductNotFoundError } from '../../domain/ProductNotFoundError';
 import { ProductGetAll } from '../../application/ProductGetAll/ProductGetAll';
 import { ProductGetOneById } from '../../application/ProductGetOneById/ProductGetOneById';
 import { ProductCreate } from '../../application/ProductCreate/ProductCreate';
+import { Response } from 'express';
 // External libraries
 import { v4 as uuidv4 } from 'uuid';
 
@@ -35,8 +36,8 @@ export class ProductController {
     }
 
     @Post()
-    async create(@Body() body: Create) {
-        return await this.productCreate.run(
+    async create(@Body() body: Create, @Res() res: Response) {
+        const product = await this.productCreate.run(
             uuidv4(),
             body.name,
             body.price,
@@ -45,6 +46,7 @@ export class ProductController {
             body.image,
             new Date(),
         );
+        res.status(HttpStatus.CREATED).json(product);
     }
 
 }

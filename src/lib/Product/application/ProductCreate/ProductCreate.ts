@@ -11,14 +11,17 @@ export class ProductCreate {
         price: number,
         stock: number,
         description: string,
-        image: string): Promise<void> {
+        image: string,
+        createAt: Date
+    ): Promise<Product> {
         const product = new Product(
             id,
             name,
             price,
             stock,
             description,
-            image
+            image,
+            createAt
         );
 
         return this.repository.create(product);

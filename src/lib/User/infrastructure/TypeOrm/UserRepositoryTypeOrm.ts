@@ -3,18 +3,18 @@ import { UserRepository } from '../../domain/UserRepository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../../domain/User';
 import { UserId } from '../../domain/UserId';
-import { TypeOrmUserEntity } from './TypeOrmUserEntity';
+import { UserEntityTypeOrm } from './UserEntityTypeOrm';
 import { UserName } from '../../domain/UserName';
 import { UserEmail } from '../../domain/UserEmail';
 import { UserCreatedAt } from '../../domain/UserCreatedAt';
 
-export class TypeOrmUserRepository implements UserRepository {
+export class UserRepositoryTypeOrm implements UserRepository {
   constructor(
-    @InjectRepository(TypeOrmUserEntity)
-    private readonly repository: Repository<TypeOrmUserEntity>,
+    @InjectRepository(UserEntityTypeOrm)
+    private readonly repository: Repository<UserEntityTypeOrm>,
   ) {}
 
-  private mapToDomain(u: TypeOrmUserEntity) {
+  private mapToDomain(u: UserEntityTypeOrm) {
     return new User(
       new UserId(u.id),
       new UserName(u.name),

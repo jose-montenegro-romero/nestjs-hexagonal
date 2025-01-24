@@ -5,6 +5,7 @@ export class Product {
     stock: number;
     description: string;
     image: string;
+    createdAt: Date;
 
     constructor(
         id: string,
@@ -12,7 +13,8 @@ export class Product {
         price: number,
         stock: number,
         description: string,
-        image: string
+        image: string,
+        createAt: Date
     ) {
         this.id = id;
         this.name = name;
@@ -20,6 +22,7 @@ export class Product {
         this.stock = stock;
         this.description = description;
         this.image = image;
+        this.createdAt = createAt;
     }
 
     public toPlainObject() {

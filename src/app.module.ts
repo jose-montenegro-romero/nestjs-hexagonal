@@ -2,7 +2,9 @@ import { Module } from '@nestjs/common';
 import { UserModule } from './lib/User/infrastructure/NestJs/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { TypeOrmUserEntity } from './lib/User/infrastructure/TypeOrm/TypeOrmUserEntity';
+import { UserEntityTypeOrm } from './lib/User/infrastructure/TypeOrm/UserEntityTypeOrm';
+import { ProductEntityTypeOrm } from './lib/Product/infrastructure/TypeOrm/ProductEntityTypeOrm';
+import { ProductModule } from './lib/Product/infrastructure/Nestjs/product.module';
 
 @Module({
   imports: [
@@ -10,10 +12,14 @@ import { TypeOrmUserEntity } from './lib/User/infrastructure/TypeOrm/TypeOrmUser
     TypeOrmModule.forRoot({
       type: 'postgres',
       url: process.env.DATABASE_URL,
-      entities: [TypeOrmUserEntity],
+      entities: [
+        UserEntityTypeOrm,
+        ProductEntityTypeOrm
+      ],
       synchronize: process.env.NODE_ENV === 'dev',
     }),
     UserModule,
+    ProductModule,
   ],
 })
-export class AppModule {}
+export class AppModule { }

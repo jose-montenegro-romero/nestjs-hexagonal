@@ -1,7 +1,7 @@
 import { Column, CreateDateColumn, Entity, PrimaryColumn } from 'typeorm';
 
-@Entity('users')
-export class TypeOrmUserEntity {
+@Entity('products')
+export class ProductEntityTypeOrm {
   @PrimaryColumn()
   id: string;
 
@@ -9,7 +9,16 @@ export class TypeOrmUserEntity {
   name: string;
 
   @Column()
-  email: string;
+  price: number;
+
+  @Column()
+  stock: number;
+
+  @Column()
+  description: string;
+
+  @Column()
+  image: string;
 
   @CreateDateColumn()
   createdAt: Date;

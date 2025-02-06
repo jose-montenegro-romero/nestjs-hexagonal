@@ -1,9 +1,10 @@
-import { Body, Controller, Get, HttpStatus, Inject, NotFoundException, Param, Post, Res } from '@nestjs/common';
-import { Create, FindOneParams } from './validations';
+import { Body, Controller, Get, HttpStatus, Inject, NotFoundException, Param, Patch, Post, Res } from '@nestjs/common';
+import { Create, FindOneParams, UpdateEnabled } from './validations';
 import { ProductNotFoundError } from '../../domain/ProductNotFoundError';
 import { ProductGetAll } from '../../application/ProductGetAll/ProductGetAll';
 import { ProductGetOneById } from '../../application/ProductGetOneById/ProductGetOneById';
 import { ProductCreate } from '../../application/ProductCreate/ProductCreate';
+import { ProductSetEnabledById } from '../../application/ProductSetEnabledById/ProductSetEnabledById';
 import { Response } from 'express';
 // External libraries
 import { v4 as uuidv4 } from 'uuid';
@@ -15,6 +16,7 @@ export class ProductController {
         @Inject('ProductGetAll') private readonly productGetAll: ProductGetAll,
         @Inject('ProductGetOneById') private readonly productGetOneById: ProductGetOneById,
         @Inject('ProductCreate') private readonly productCreate: ProductCreate,
+        @Inject('ProductSetEnabledById') private readonly productSetEnabledById: ProductSetEnabledById,
     ) { }
 
     @Get()
@@ -25,10 +27,11 @@ export class ProductController {
     @Get(':id')
     async getOneById(@Param() params: FindOneParams) {
         try {
-            return (await this.productGetOneById.run(params.id)).toPlainObject();
+            const product = await this.productGetOneById.run(params.id);          
+            return product.toPlainObject();
         } catch (error) {
             if (error instanceof ProductNotFoundError) {
-                throw new NotFoundException();
+                throw new NotFoundException("Product not found");
             }
 
             throw error;
@@ -44,9 +47,27 @@ export class ProductController {
             body.stock,
             body.description,
             body.image,
+            body.enabled,
             new Date(),
         );
         res.status(HttpStatus.CREATED).json(product);
+    }
+
+    @Patch("enabled/:id")
+    async updateEnabledById(@Param() params: FindOneParams, @Body() body: UpdateEnabled, @Res() res: Response) {
+        try {
+            const product = await this.productSetEnabledById.run(
+                params.id,
+                body.enabled
+            );
+            res.status(HttpStatus.FOUND).json(product.toPlainObject());
+        } catch (error) {
+            if (error instanceof ProductNotFoundError) {
+                throw new NotFoundException("Product not found");
+            }
+
+            throw error;
+        }
     }
 
 }

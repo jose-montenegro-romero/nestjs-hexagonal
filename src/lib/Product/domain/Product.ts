@@ -5,6 +5,7 @@ export class Product {
     stock: number;
     description: string;
     image: string;
+    enabled: boolean = true;
     createdAt: Date;
 
     constructor(
@@ -14,6 +15,7 @@ export class Product {
         stock: number,
         description: string,
         image: string,
+        enabled: boolean,
         createAt: Date
     ) {
         this.id = id;
@@ -22,6 +24,7 @@ export class Product {
         this.stock = stock;
         this.description = description;
         this.image = image;
+        this.enabled = enabled;
         this.createdAt = createAt;
     }
 
@@ -32,7 +35,8 @@ export class Product {
             price: this.price,
             stock: this.stock,
             description: this.description,
-            image: this.image
+            image: this.image,
+            enabled: this.enabled,
         }
     }
 }

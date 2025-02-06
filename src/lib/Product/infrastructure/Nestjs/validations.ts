@@ -1,4 +1,4 @@
-import { IsEmail, IsNumber, IsString, Length } from 'class-validator';
+import { IsBoolean, IsEmail, IsNumber, IsString, Length } from 'class-validator';
 
 export class FindOneParams {
   @IsString()
@@ -22,5 +22,12 @@ export class Create {
 
   @IsString()
   image: string;
+
+  @IsBoolean()
+  enabled: boolean;
 }
 
+export class UpdateEnabled {
+  @IsBoolean()
+  enabled: boolean;
+}

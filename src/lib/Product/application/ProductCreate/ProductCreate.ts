@@ -12,6 +12,7 @@ export class ProductCreate {
         stock: number,
         description: string,
         image: string,
+        enabled: boolean,
         createAt: Date
     ): Promise<Product> {
         const product = new Product(
@@ -21,6 +22,7 @@ export class ProductCreate {
             stock,
             description,
             image,
+            enabled,
             createAt
         );
 

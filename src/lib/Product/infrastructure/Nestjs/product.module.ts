@@ -6,6 +6,7 @@ import { ProductRepositoryTypeOrm } from '../TypeOrm/ProductRepositoryTypeOrm';
 import { ProductGetAll } from '../../application/ProductGetAll/ProductGetAll';
 import { ProductGetOneById } from '../../application/ProductGetOneById/ProductGetOneById';
 import { ProductCreate } from '../../application/ProductCreate/ProductCreate';
+import { ProductSetEnabledById } from '../../application/ProductSetEnabledById/ProductSetEnabledById';
 
 @Module({
     imports: [TypeOrmModule.forFeature([ProductEntityTypeOrm])],
@@ -31,6 +32,12 @@ import { ProductCreate } from '../../application/ProductCreate/ProductCreate';
             provide: 'ProductCreate',
             useFactory: (repository: ProductRepositoryTypeOrm) =>
                 new ProductCreate(repository),
+            inject: ['ProductRepository'],
+        },
+        {
+            provide: 'ProductSetEnabledById',
+            useFactory: (repository: ProductRepositoryTypeOrm) =>
+                new ProductSetEnabledById(repository),
             inject: ['ProductRepository'],
         },
     ],

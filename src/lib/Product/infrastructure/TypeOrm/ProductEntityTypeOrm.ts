@@ -20,6 +20,9 @@ export class ProductEntityTypeOrm {
   @Column()
   image: string;
 
+  @Column({ default: true })
+  enabled: boolean;
+
   @CreateDateColumn()
   createdAt: Date;
 }

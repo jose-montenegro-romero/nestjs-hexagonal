@@ -19,6 +19,7 @@ export class ProductRepositoryTypeOrm implements ProductRepository {
             u.stock,
             u.description,
             u.image,
+            u.enabled,
             u.createdAt,
         );
     }
@@ -37,6 +38,7 @@ export class ProductRepositoryTypeOrm implements ProductRepository {
             stock: product.stock,
             description: product.description,
             image: product.image,
+            enabled: product.enabled,
             createdAt: product.createdAt,
         });
         console.log("productSave:", productSave);
@@ -53,6 +55,25 @@ export class ProductRepositoryTypeOrm implements ProductRepository {
 
         if (!product) return null;
 
+        return this.EntityToDomain(product);
+    }
+
+
+    async setEnabledById(id: string, enabled: boolean): Promise<Product | null> {
+
+        const product = await this.repository.findOne({
+            where: {
+                id: id,
+            },
+        });
+
+        if (!product) return null;
+
+        await this.repository.update(id, {
+            enabled: enabled,
+        });
+
+        product.enabled = enabled;
         return this.EntityToDomain(product);
     }
 

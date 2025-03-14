@@ -5,8 +5,9 @@ import { ProductGetAll } from '../../application/ProductGetAll/ProductGetAll';
 import { ProductGetOneById } from '../../application/ProductGetOneById/ProductGetOneById';
 import { ProductCreate } from '../../application/ProductCreate/ProductCreate';
 import { ProductSetEnabledById } from '../../application/ProductSetEnabledById/ProductSetEnabledById';
-import { Response } from 'express';
+import { Product } from '../../domain/Product';
 // External libraries
+import { Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 
 @Controller('product')
@@ -21,13 +22,15 @@ export class ProductController {
 
     @Get()
     async getAll() {
-        return (await this.productGetAll.run()).map((u) => u.toPlainObject());
+        return (await this.productGetAll.run()).map((u: Product) => {
+            return u.toPlainObject()
+        });
     }
 
     @Get(':id')
     async getOneById(@Param() params: FindOneParams) {
         try {
-            const product = await this.productGetOneById.run(params.id);          
+            const product = await this.productGetOneById.run(params.id);
             return product.toPlainObject();
         } catch (error) {
             if (error instanceof ProductNotFoundError) {

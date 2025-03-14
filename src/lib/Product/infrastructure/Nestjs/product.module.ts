@@ -7,6 +7,7 @@ import { ProductGetAll } from '../../application/ProductGetAll/ProductGetAll';
 import { ProductGetOneById } from '../../application/ProductGetOneById/ProductGetOneById';
 import { ProductCreate } from '../../application/ProductCreate/ProductCreate';
 import { ProductSetEnabledById } from '../../application/ProductSetEnabledById/ProductSetEnabledById';
+import { ProductDynamoRepository } from '../dynamodb/productDynamo.repository';
 
 @Module({
     imports: [TypeOrmModule.forFeature([ProductEntityTypeOrm])],
@@ -17,10 +18,14 @@ import { ProductSetEnabledById } from '../../application/ProductSetEnabledById/P
             useClass: ProductRepositoryTypeOrm,
         },
         {
+            provide: 'ProductRepositoryDynamoDB',
+            useClass: ProductDynamoRepository,
+        },
+        {
             provide: 'ProductGetAll',
-            useFactory: (repository: ProductRepositoryTypeOrm) =>
+            useFactory: (repository: ProductDynamoRepository) =>
                 new ProductGetAll(repository),
-            inject: ['ProductRepository'],
+            inject: ['ProductRepositoryDynamoDB'],
         },
         {
             provide: 'ProductGetOneById',
